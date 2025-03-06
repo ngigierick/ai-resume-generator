@@ -10,40 +10,72 @@ use yii\bootstrap4\Html;
 $this->title = 'Login';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
+
 <div class="site-login">
-    <h1><?= Html::encode($this->title) ?></h1>
+    <h1 class="text-center"><?= Html::encode($this->title) ?></h1>
 
-    <p>Please fill out the following fields to login:</p>
+    <p class="text-center text-muted">Enter your credentials to access your account.</p>
 
-    <?php $form = ActiveForm::begin([
-        'id' => 'login-form',
-        'layout' => 'horizontal',
-        'fieldConfig' => [
-            'template' => "{label}\n{input}\n{error}",
-            'labelOptions' => ['class' => 'col-lg-1 col-form-label mr-lg-3'],
-            'inputOptions' => ['class' => 'col-lg-3 form-control'],
-            'errorOptions' => ['class' => 'col-lg-7 invalid-feedback'],
-        ],
-    ]); ?>
+    <div class="row justify-content-center">
+        <div class="col-lg-6">
+            <?php $form = ActiveForm::begin([
+                'id' => 'login-form',
+                'options' => ['class' => 'card p-4 shadow-sm'],
+                'fieldConfig' => [
+                    'template' => "{label}\n{input}\n{error}",
+                    'labelOptions' => ['class' => 'font-weight-bold'],
+                    'inputOptions' => ['class' => 'form-control'],
+                    'errorOptions' => ['class' => 'text-danger small'],
+                ],
+            ]); ?>
 
-        <?= $form->field($model, 'username')->textInput(['autofocus' => true]) ?>
+            <?= $form->field($model, 'username')->textInput([
+                'autofocus' => true,
+                'placeholder' => 'Enter your username',
+            ]) ?>
 
-        <?= $form->field($model, 'password')->passwordInput() ?>
-
-        <?= $form->field($model, 'rememberMe')->checkbox([
-            'template' => "<div class=\"offset-lg-1 col-lg-3 custom-control custom-checkbox\">{input} {label}</div>\n<div class=\"col-lg-8\">{error}</div>",
-        ]) ?>
-
-        <div class="form-group">
-            <div class="offset-lg-1 col-lg-11">
-                <?= Html::submitButton('Login', ['class' => 'btn btn-primary', 'name' => 'login-button']) ?>
+            <div class="position-relative">
+                <?= $form->field($model, 'password')->passwordInput([
+                    'id' => 'password-input',
+                    'placeholder' => 'Enter your password',
+                ]) ?>
+                <span class="position-absolute" style="top: 38px; right: 10px; cursor: pointer;" onclick="togglePassword()">
+                    <i id="toggle-icon" class="fas fa-eye"></i>
+                </span>
             </div>
+
+            <?= $form->field($model, 'rememberMe')->checkbox([
+                'template' => "<div class=\"form-check\">{input} {label}</div>\n<div>{error}</div>",
+            ]) ?>
+
+            <div class="form-group text-center">
+                <?= Html::submitButton('Login', ['class' => 'btn btn-primary btn-block', 'name' => 'login-button']) ?>
+            </div>
+
+            <?php ActiveForm::end(); ?>
+
+            <p class="text-center text-muted mt-3">
+                <p>Don't have an account? <?= Html::a('Sign up', ['site/signup']) ?></p>
+                <p>Forgot your password? <?= Html::a('Reset it', ['site/request-password-reset']) ?></p>
+
+
+            </p>
         </div>
-
-    <?php ActiveForm::end(); ?>
-
-    <div class="offset-lg-1" style="color:#999;">
-        You may login with <strong>admin/admin</strong> or <strong>demo/demo</strong>.<br>
-        To modify the username/password, please check out the code <code>app\models\User::$users</code>.
     </div>
 </div>
+
+<script>
+    function togglePassword() {
+        let input = document.getElementById("password-input");
+        let icon = document.getElementById("toggle-icon");
+        if (input.type === "password") {
+            input.type = "text";
+            icon.classList.remove("fa-eye");
+            icon.classList.add("fa-eye-slash");
+        } else {
+            input.type = "password";
+            icon.classList.remove("fa-eye-slash");
+            icon.classList.add("fa-eye");
+        }
+    }
+</script>

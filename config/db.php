@@ -2,9 +2,9 @@
 
 return [
     'class' => 'yii\db\Connection',
-    'dsn' => 'pgsql:host=localhost;dbname=ai_resume_db', // Change 'ai_resume_db' to your actual database name
-    'username' => '"postgres"', // Replace with your PostgreSQL username
-    'password' => '123456', // Replace with your PostgreSQL password
+    'dsn' => 'pgsql:host=localhost;dbname=ai_resume_db', // Your PostgreSQL database name
+    'username' => 'postgres', // Corrected username (remove double quotes)
+    'password' => '123456', // Your PostgreSQL password
     'charset' => 'utf8',
 
     // Schema cache options (for production environment)

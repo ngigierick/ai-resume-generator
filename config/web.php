@@ -7,7 +7,7 @@ $db = require __DIR__ . '/db.php';
 $config = [
     'id' => 'basic', // Application ID
     'basePath' => dirname(__DIR__), // Base directory of the application
-    'bootstrap' => ['log'], // Components to be loaded at the start
+    'bootstrap' => ['log', 'gii'], // Added 'gii' to bootstrap for development
     'aliases' => [
         '@bower' => '@vendor/bower-asset',
         '@npm'   => '@vendor/npm-asset',
@@ -41,7 +41,6 @@ $config = [
             ],
         ],
         'db' => $db, // Database connection (PostgreSQL in our case)
-
         'urlManager' => [
             'enablePrettyUrl' => true, // Enables SEO-friendly URLs
             'showScriptName' => false, // Hides index.php in URLs
@@ -60,6 +59,10 @@ $config = [
         'payment' => [
             'class' => 'app\modules\payment\Module',
         ],
+        'gii' => [
+            'class' => 'yii\gii\Module',
+            'allowedIPs' => ['127.0.0.1', '::1', '*'], // Allow access from any IP
+        ],
     ],
     'params' => $params, // Application parameters
 ];
@@ -69,13 +72,7 @@ if (YII_ENV_DEV) {
     $config['bootstrap'][] = 'debug';
     $config['modules']['debug'] = [
         'class' => 'yii\debug\Module',
-        //'allowedIPs' => ['127.0.0.1', '::1'], // Restrict debug access
-    ];
-
-    $config['bootstrap'][] = 'gii';
-    $config['modules']['gii'] = [
-        'class' => 'yii\gii\Module',
-        //'allowedIPs' => ['127.0.0.1', '::1'], // Restrict Gii access
+        'allowedIPs' => ['127.0.0.1', '::1', '*'], // Allow debug from any IP
     ];
 }
 
